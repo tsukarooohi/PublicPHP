@@ -1,8 +1,8 @@
 <?php
 
-function h($string){
+function h($string, $encode='utf-8'){
 
-	return htmlspecialchars($string, ENT_QUOTES);
+	return htmlspecialchars($string, ENT_QUOTES, $encode);
 }
 
 function m($string){
