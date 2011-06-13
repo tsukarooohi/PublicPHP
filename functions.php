@@ -21,7 +21,7 @@ function Location($url){
  * $text: 書き込み内容
  * $type: 書き込みﾀｲﾌﾟ
  */
-function f_put($dir, $string, $type=''){
+function file_put($dir, $string, $type=''){
 
 	$version = phpversion();
 	if((substr($version, 0, 1)) == '5'){
