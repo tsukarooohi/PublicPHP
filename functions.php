@@ -52,3 +52,11 @@ function Make_instance($class){
 		return new $class;
 	}
 }
+
+// 配列を指定数で分割した結果を返す
+function myChunk( $array, $limit, $key ){
+	
+	$chunk_array = array_chunk( $array , $limit );
+
+	return $chunk_array[$key];
+}
