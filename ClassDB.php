@@ -7,6 +7,11 @@ class ClassDB{
 
 	public function __construct(){
 
+		$db_host = '';
+		$db_user = '';
+		$db_pass = '';
+		$db_name = '';
+		
 		$this->link = mysql_connect( $db_host, $db_user, $db_pass )  or die( 'Could not connect: ' . mysql_error() );
 		mysql_select_db( $db_name ) or die( 'Could not select database' );
 		mysql_query( 'SET NAMES utf8' );
