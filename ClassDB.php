@@ -39,6 +39,9 @@ class ClassDB{
 	//Insert処理
 	protected function Insert( $table, $values ){
 
+		foreach( $values as $k => $v )
+			$values[$k] = "'".$this->m( $v )."'";
+		
 		$column = array_keys( $values );
 		$sql = "insert into ".$table."
 					(".implode( ' , ', $column ).")
@@ -47,13 +50,14 @@ class ClassDB{
 			   ";
 		
 		mysql_query( $sql );
+		
 	}
 	
 	//UpDate処理
 	protected function UpDate( $table, $values, $where ){
 
 		foreach( $values as $k => $v )
-			$in_set .= ','.$k. ' = '. $v;
+			$in_set .= ','.$k. " = '".$this->m( $v )."'";
 		
 		$sql = "update ".$table." set
 					".ltrim( $in_set, ',' )."
@@ -61,17 +65,18 @@ class ClassDB{
 			   ";
 
 		mysql_query( $sql );
+		
 	}
 	
 	//InsertUpdate処理
 	protected function InsertUp( $table, $values ){
 
 		foreach( $values as $k => $v )
-			$in_set .= ','.$k. ' = '. $v;
+			$in_set .= ','.$k. " = '".$this->m( $v )."'";
 		
 		array_shift( $values );
 		foreach( $values as $k => $v )
-			$up_set .= ','.$k. ' = '. $v;
+			$up_set .= ','.$k. " = '".$this->m( $v )."'";
 
 		$sql = "insert into ".$table." set
 					 ".ltrim( $in_set, ',' )."
@@ -80,6 +85,12 @@ class ClassDB{
 			   ";
 
 		mysql_query( $sql );
+
+	}
+	
+	private function m( $string ){
+		
+		return mysql_real_escape_string( $string );
 	}
 	
 	protected function DB_close(){
