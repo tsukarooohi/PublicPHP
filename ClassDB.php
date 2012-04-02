@@ -2,53 +2,84 @@
 
 class ClassDB{
 
-	private $db_host, $db_user, $db_pass, $db_name, $link;
+	public $link;
 	public $total;
 
 	public function __construct(){
 
-		$this->db_host = '';
-		$this->db_user = '';
-		$this->db_pass = '';
-		$this->db_name = '';
-
-		$this->link = mysql_connect($this->db_host,$this->db_user,$this->db_pass)  or die('Could not connect: ' . mysql_error());
-		mysql_select_db($this->db_name) or die('Could not select database');
-		mysql_query("SET NAMES utf8");
+		$this->link = mysql_connect( $db_host, $db_user, $db_pass )  or die( 'Could not connect: ' . mysql_error() );
+		mysql_select_db( $db_name ) or die( 'Could not select database' );
+		mysql_query( 'SET NAMES utf8' );
 	}
 
-	protected function DB_connect(){
+	//Select処理
+	protected function Select( $sql, $sql_rows='' ){
 
-		$this->link = mysql_connect($this->db_host,$this->db_user,$this->db_pass)  or die('Could not connect: ' . mysql_error());
-		mysql_select_db($this->db_name) or die('Could not select database');
-		mysql_query("SET NAMES utf8");
+		$resource = mysql_query( $sql );
 
-	}
+		if( !mysql_errno() && mysql_num_rows( $resource ) ){
 
-	//select処理
-	protected function Select($sql, $sql_rows=''){
+			if( $sql_rows ){
 
-		$resource = mysql_query($sql);
-		if(!mysql_errno() && mysql_num_rows($resource)){
-
-			if($sql_rows){
-
-				$total_result = mysql_query("select found_rows() total");
-				$this->total = mysql_result($total_result, 0);
+				$result = mysql_query( 'select found_rows() as all_max' );
+				$this->total = mysql_result( $result, 0 );
 			}
 
-			while($a = mysql_fetch_assoc($resource)) $datas[] = $a;
+			while( $a = mysql_fetch_assoc( $resource ) ) $datas[] = $a;
 
 			return $datas;
 		}
-
-		return false;
 	}
 
+	//Insert処理
+	protected function Insert( $table, $values ){
 
+		$column = array_keys( $values );
+		$sql = "insert into ".$table."
+					(".implode( ' , ', $column ).")
+					values
+					(".implode( ' , ', $values ).")
+			   ";
+		
+		mysql_query( $sql );
+	}
+	
+	//UpDate処理
+	protected function UpDate( $table, $values, $where ){
+
+		foreach( $values as $k => $v )
+			$in_set .= ','.$k. ' = '. $v;
+		
+		$sql = "update ".$table." set
+					".ltrim( $in_set, ',' )."
+				where ".$where."
+			   ";
+
+		mysql_query( $sql );
+	}
+	
+	//InsertUpdate処理
+	protected function InsertUp( $table, $values ){
+
+		foreach( $values as $k => $v )
+			$in_set .= ','.$k. ' = '. $v;
+		
+		array_shift( $values );
+		foreach( $values as $k => $v )
+			$up_set .= ','.$k. ' = '. $v;
+
+		$sql = "insert into ".$table." set
+					 ".ltrim( $in_set, ',' )."
+				ON DUPLICATE KEY UPDATE
+					".ltrim( $up_set, ',' )."
+			   ";
+
+		mysql_query( $sql );
+	}
+	
 	protected function DB_close(){
 
-		mysql_close($this->link);
+		mysql_close( $this->link );
 	}
 
 }
