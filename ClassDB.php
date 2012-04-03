@@ -93,7 +93,7 @@ class ClassDB{
 		return mysql_real_escape_string( $string );
 	}
 	
-	protected function DB_close(){
+	public function DB_close(){
 
 		mysql_close( $this->link );
 	}
