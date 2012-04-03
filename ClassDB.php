@@ -88,7 +88,7 @@ class ClassDB{
 
 	}
 	
-	private function m( $string ){
+	protected function m( $string ){
 		
 		return mysql_real_escape_string( $string );
 	}
