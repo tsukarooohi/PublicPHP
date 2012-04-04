@@ -24,11 +24,8 @@ class ClassDB{
 
 		if( !mysql_errno() && mysql_num_rows( $resource ) ){
 
-			if( $sql_rows ){
-
-				$result = mysql_query( 'select found_rows() as all_max' );
-				$this->total = mysql_result( $result, 0 );
-			}
+			if( $sql_rows )
+				$this->FoundRows();
 
 			while( $a = mysql_fetch_assoc( $resource ) ) $datas[] = $a;
 
@@ -91,6 +88,13 @@ class ClassDB{
 	protected function m( $string ){
 		
 		return mysql_real_escape_string( $string );
+	}
+	
+	//総数の取得処理
+	protected function FoundRows(){
+		
+		$resource = mysql_query( 'select found_rows() as all_max' );
+		$this->total = mysql_result( $resource, 0 );
 	}
 	
 	public function DB_close(){
