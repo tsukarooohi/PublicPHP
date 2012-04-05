@@ -55,11 +55,11 @@ function mb( $string, $to, $from ){
 }
 
 // クラスインスタンスの生成処理
-function Make_instance($class){
+function Make_instance( $class, $dir='/systems/class/' ){
 
-	if(!class_exists($class)){
+	if( !class_exists( $class ) ){
 
-		require(DIR.'/php/class/'.$class.'.php');
+		require( DIR.$dir.$class.'.php' );
 		return new $class;
 	}
 }
