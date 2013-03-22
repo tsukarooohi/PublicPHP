@@ -28,7 +28,7 @@ class ClassDB{
 				$this->FoundRows();
 			}
 
-			while($a = mysql_fetch_assoc($resource)) $datas[] = $a;
+			while($a = mysql_fetch_assoc($resource)){ $datas[] = $a; }
 
 			return $datas;
 		}
@@ -49,14 +49,14 @@ class ClassDB{
 			   ";
 		
 		mysql_query($sql);
-		
 	}
 	
 	//UpDate処理
 	protected function UpDate($table, $values, $where){
 
-		foreach($values as $k => $v)
+		foreach($values as $k => $v){
 			$in_set .= ',' . $k . " = '" . $this->m($v) . "'";
+		}
 		
 		$sql = "update " . $table . " set
 					" . ltrim($in_set, ',') . "
@@ -64,7 +64,6 @@ class ClassDB{
 			   ";
 
 		mysql_query($sql);
-		
 	}
 	
 	//InsertUpdate処理
@@ -75,8 +74,9 @@ class ClassDB{
 		}
 
 		array_shift($values);
-		foreach($values as $k => $v)
+		foreach($values as $k => $v){
 			$up_set .= ',' . $k . " = '" . $this->m($v) . "'";
+		}
 
 		$sql = "insert into " . $table . " set
 					 " . ltrim($in_set, ',') . "
