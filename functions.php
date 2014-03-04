@@ -135,3 +135,49 @@ function _arrayKey($needle, $haystack) {
 		return false;
 	}
 }
+
+// 指定月を日付で分割
+function _day_split($date) {
+
+	if (!preg_match('/^[\d]{4}[\-\/][\d]{1,2}[\-\/][\d]{1,2}$/', $date, $m)) {
+		return false;
+	}
+
+	$base = date('Y-m', strtotime($date));
+	$t = date('t', strtotime($date));
+
+	for ($i=1; $i<=$t; $i++) {
+
+		$days[] = $base . '-' . $i;
+	}
+
+	return $days;
+}
+
+// 指定期間を月で分割
+function _month_between_split($start, $end){
+
+	$_start = date('Ym', strtotime($start));
+	$_start_y = date('Y', strtotime($start));
+	$_start_m = date('m', strtotime($start));
+	$_end = date('Ym', strtotime($end));
+	$_end_y = date('Y', strtotime($end));
+	$_end_m = date('m', strtotime($end));
+
+	if ((int)($_start_y . $_start_m) > (int)($_end_y . $_end_m)) {
+		return false;
+	}
+
+	for ($i=$_start; $i<=$_end; $i++) {
+
+		$_months[] = date('Y-m-d', mktime(0, 0, 0, substr($i, 4, 2), 1, substr($i, 0, 4)));
+		if ($_end <= date('Ym', mktime(0, 0, 0, substr($i, 4, 2), 1, substr($i, 0, 4)))) {
+			break;
+		}
+	}
+
+	return $_months;
+}
+
+
+
