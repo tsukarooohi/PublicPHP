@@ -179,5 +179,20 @@ function _month_between_split($start, $end){
 	return $_months;
 }
 
+// 月始めの曜日の微調整
+function _start_day_adjustment($days) {
+
+	if (!is_array($days)) {
+		return false;
+	}
+
+	$return = range(0, ((int)$days[0]['day'] - 2));
+	foreach ($days as $v) {
+
+		$return[] = $v;
+	}
+
+	return $return;
+}
 
 
