@@ -1,18 +1,18 @@
 <?php
 
-function h($string, $encode='utf-8', $type='') {
+function _h($string, $encode='utf-8', $type='') {
 
 	if ($type) return htmlspecialchars_decode($string, ENT_QUOTES);
 
 	return htmlspecialchars($string, ENT_QUOTES, $encode);
 }
 
-function m($string) {
+function _m($string) {
 	
 	return mysql_real_escape_string(trim($string));
 }
 
-function u($string, $type='') {
+function _u($string, $type='') {
 
 	if ($type) {
 		return urldecode($string);
@@ -22,7 +22,7 @@ function u($string, $type='') {
 }
 
 // リダイレクト処理
-function redirect($url = null, $status = 302) {
+function _redirect($url = null, $status = 302) {
 
 	if ($status === 301) {
 
@@ -46,7 +46,7 @@ function redirect($url = null, $status = 302) {
  * $text: 書き込み内容
  * $type: 書き込みﾀｲﾌﾟ
  */
-function filePut($dir, $string, $type='') {
+function _filePut($dir, $string, $type='') {
 
 	$version = phpversion();
 	if ((substr($version, 0, 1)) === 5) {
@@ -68,13 +68,13 @@ function filePut($dir, $string, $type='') {
 	chmod($dir, 0777);
 }
 
-function mb($string, $to, $from) {
+function _mb($string, $to, $from) {
 
 	return mb_convert_encoding($string, $to, $from);
 }
 
 // クラスインスタンスの生成処理
-function instanceMake($class, $dir='/') {
+function _instanceMake($class, $dir='/') {
 
 	if (!class_exists($class)) {
 
@@ -84,7 +84,7 @@ function instanceMake($class, $dir='/') {
 }
 
 // 配列を指定数で分割した結果を返す
-function myChunk($array, $limit, $key) {
+function _array_chunk($array, $limit, $key) {
 	
 	$chunk_array = array_chunk($array , $limit);
 
@@ -92,7 +92,7 @@ function myChunk($array, $limit, $key) {
 }
 
 //第○　○曜日かの振り分け
-function getWeek($y, $m, $d) {
+function _getWeek($y, $m, $d) {
 
 	$_1day = (int)(date('w', strtotime($y . '-' . $m . '-01')));//この月の始めの曜日数値を取得
 	$now = strtotime($y . '-' . $m . '-' . $d);
@@ -124,7 +124,7 @@ function getWeek($y, $m, $d) {
  * 指定したキーが配列にあればその要素の値を返す
  * なければ false
  */
-function arrayKey($needle, $haystack) {
+function _arrayKey($needle, $haystack) {
 	
 	if (array_key_exists($needle, $haystack)) {
 		
