@@ -146,9 +146,12 @@ function _day_split($date) {
 	$base = date('Y-m', strtotime($date));
 	$t = date('t', strtotime($date));
 
+	$num = 0;
 	for ($i=1; $i<=$t; $i++) {
 
-		$days[] = $base . '-' . $i;
+		$days[$num]['date'] = $base . '-' . $i;
+		$days[$num]['day'] = date('N', strtotime($base . '-' . $i));
+		$num++;
 	}
 
 	return $days;
